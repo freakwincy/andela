@@ -1,0 +1,21 @@
+# This is a fix for InnoDB in MySQL >= 4.1.x
+# It "suspends judgement" for fkey relationships until are tables are set.
+SET FOREIGN_KEY_CHECKS = 0;
+
+#-----------------------------------------------------------------------------
+#-- phone_numbers 
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `phone_numbers`;
+
+CREATE TABLE `phone_numbers`
+(
+    `id` BIGINT unsigned  NOT NULL AUTO_INCREMENT,
+    `digits` VARCHAR(16),
+    `active` TINYINT default 0 NOT NULL, 
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `digits_idx` (`digits`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# This restores the fkey checks, after having unset them earlier
+SET FOREIGN_KEY_CHECKS = 1;
